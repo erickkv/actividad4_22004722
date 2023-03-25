@@ -106,7 +106,7 @@ boton.addEventListener('click', () => {
                                             "</tr>";
                     datosLibros.forEach((libro, i) => {
                         tableData.innerHTML += "<tr>" +
-                                                    "<th>" + i + "</th>" +
+                                                    "<th>" + (i + 1) + "</th>" +
                                                     "<td>" + libro.title + "</td>" +
                                                     "<td>" + libro.publish_year[0] + "</td>" +
                                                 "</tr>";
@@ -118,7 +118,7 @@ boton.addEventListener('click', () => {
                                             "</tr>";
                     datosLibros.forEach((libro, i) => {
                         tableData.innerHTML += "<tr>" +
-                                                    "<th>" + i + "</th>" +
+                                                    "<th>" + (i + 1) + "</th>" +
                                                     "<td>" + libro.title + "</td>" +
                                                 "</tr>";
                 });
