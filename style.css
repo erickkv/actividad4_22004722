@@ -36,12 +36,13 @@
     padding: 20px;
 }
 
-#boton {
+.button {
     padding: 5px 40px;
     text-align: center;
     border-radius: 5px;
     background-color: rgb(223, 222, 222);
     font-weight: normal;
+    margin: 5px 20px;
 }
 
 #adv {
