@@ -7,14 +7,51 @@
     </head>
     <body>
         <div class="p-5 text-center bg-light">
-            <h1 class="mb-3">Datos curiosos</h1>
+            <h1 class="mb-3">Libros</h1>
         </div>
-        <p class="descripcion">Haga click en el botón para obtener un dato curioso aleatorio</p>
-        <p class="aclaracion">Nota: los datos obtenidos están en inglés</p>
+        <p class="descripcion">Como usar la aplicación: <br>
+            1. Seleccione una opción de la lista desplegable: título (del libro) o autor. <br>
+            2. Seleccione los campos que desea agregar a la búsqueda. (título, autor, año) <br>
+            3. Haga click en el boton buscar para iniciar la búsqueda.<br>
+            4. Espere a que se obtenga la información, la cual se mostrará en la tabla debajo. <br>
+            Nota. DEBE CONTAR CON CONEXIÓN A INTERNET<br>
+            Fuente de API:
+            https://openlibrary.org/developers/api
+        </p>
+        <div class="twoRows">
+            <select name="parametro" id="select-parametro" class="col-input">
+                <option selected disabled value = "">Seleccione una opción</option>
+                <option value="titulo">Titulo</option>
+                <option value="autor">Autor</option>
+                <input type="text" id="parametroText" class="col-input">
+            </select>
+        </div>
         <div class="container">
-            <input type="submit" value="OBTENER DATO ALEATORIO" class="button" id="boton"/>
+            <div class="three-cols">
+                <div>
+                    <label for="titulo-cbx">Título(s)</label>
+                    <input type="checkbox" id="titulo-cbx" name="titulo-select" value="titulo">
+                </div>
+                <div>
+                    <label for="autor-cbx"> Autor</label>
+                    <input type="checkbox" id="autor-cbx" name="autor-select" value="autor">
+                </div>
+                <div>
+                    <label for="year-cbx"> Año</label>
+                    <input type="checkbox" id="year-cbx" name="year-select" value="year">
+                </div>
+            </div>
+            <input type="submit" value="Buscar" class="button" id="boton"/>
         </div>
-        <div id="fact"></div>
+        <div id="adv"></div>
+        <div id="tableDiv">
+            <table class="table" id="tabla">
+                <thead id="tableHead">
+                </thead>
+                <tbody id="tableData">
+                </tbody>
+            </table>
+        </div>
         <script type="text/javascript" src="index.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     </body>

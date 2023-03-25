@@ -16,15 +16,35 @@
     text-align: center;
 }
 
+.twoRows {
+    display: grid;
+    grid-template-columns: 35% 65%;
+    padding: 5px 5%;
+}
+
+.three-cols {
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    padding: 5px 20%;
+}
+
+.col-input {
+    margin: 5px 20px;
+}
+
+#tableDiv {
+    padding: 20px;
+}
+
 #boton {
-    padding: 10px 5px;
+    padding: 5px 40px;
     text-align: center;
     border-radius: 5px;
     background-color: rgb(223, 222, 222);
     font-weight: normal;
 }
 
-#fact {
+#adv {
     padding: 30px;
     text-align: center;
     color: rgb(65, 62, 62);

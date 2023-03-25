@@ -5,8 +5,8 @@ let ventana;
 
 function createWindow() {
     ventana = new BrowserWindow({
-        width: 600,
-        height: 600,
+        width: 1000,
+        height: 1000,
         webPreferences: {
             preload: path.join(app.getAppPath(), 'preload.js')
         }
