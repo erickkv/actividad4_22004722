@@ -31,58 +31,66 @@ boton.addEventListener('click', () => {
         adv.innerHTML = "debe seleccionar búsqueda por AUTOR o por TITULO";
         return;
     }
-    if (parametro.value === "autor") {
-        const autor = parametroText.value.toString().split().join("_");
+    const autor = parametroText.value
+    if (parametro.value === "autor" && !tituloCbx.checked) {
+        fetch(`https://openlibrary.org/search/authors.json?q=${autor}`)
+            .then(res => res.json())
+            .then(resJson => {
+                tableHead.innerHTML = "";
+                tableData.innerHTML = "";
+                const autores = resJson.docs;
+                tableHead.innerHTML += "<tr>" +
+                                            "<th>" +"autor" + "</th>"
+                                        "</tr>";
+                autores.forEach(autor => {
+                    tableData.innerHTML += "<tr>" +
+                                            "<td>" + autor.name + "</td>"
+                                        "</tr>";
+                })
+
+
+            })
+    } else if (parametro.value === "autor" && tituloCbx.checked) {
         fetch(`https://openlibrary.org/search.json?author=${autor}&sort=new`)
             .then(res => res.json())
             .then(resJson => {
                 tableHead.innerHTML = "";
                 tableData.innerHTML = "";
-                const datosAutor = resJson.docs[0].author_name[0];
-                if (!tituloCbx.checked) {
+                let datosLibros = resJson.docs;
+                console.log(datosLibros[0])
+                if (!yearCbx.checked) {
                     tableHead.innerHTML += "<tr>" +
-                                                "<th>" +"autor" + "</th>"
+                                                "<th>" +"No." + "</th>" +
+                                                "<th>" +"Autor." + "</th>" +
+                                                "<th>" +"Título." + "</th>" +
                                             "</tr>";
-                    tableData.innerHTML += "<tr>" +
-                                                "<td>" + datosAutor + "</td>"
+                    datosLibros.forEach((libro, i) => {
+                        tableData.innerHTML += "<tr>" +
+                                                    "<th>" + (i + 1) + "</th>" +
+                                                    "<td>" + libro.author_name[0] + "</td>" +
+                                                    "<td>" + libro.title + "</td>" +
+                                                "</tr>";
+                    });
+                } else {
+                    tableHead.innerHTML += "<tr>" +
+                                                "<th>" +"No." + "</th>" +
+                                                "<th>" +"Autor." + "</th>" +
+                                                "<th>" +"Título." + "</th>" +
+                                                "<th>" +"A&ntildeo." + "</th>" +
                                             "</tr>";
-                } else if (tituloCbx.checked) {
-                    let datosLibros = resJson.docs;
-                    if (!yearCbx.checked) {
-                        tableHead.innerHTML += "<tr>" +
-                                                    "<th>" +"No." + "</th>" +
-                                                    "<th>" +"Autor." + "</th>" +
-                                                    "<th>" +"Título." + "</th>" +
+                    datosLibros.forEach((libro, i) => {
+                        tableData.innerHTML += "<tr>" +
+                                                    "<th>" + (i + 1) + "</th>" +
+                                                    "<td>" + libro.author_name[0] + "</td>" +
+                                                    "<td>" + libro.title + "</td>" +
+                                                    "<td>" + libro.publish_year[0] + "</td>" +
                                                 "</tr>";
-                        datosLibros.forEach((libro, i) => {
-                            tableData.innerHTML += "<tr>" +
-                                                        "<th>" + i + "</th>" +
-                                                        "<td>" + datosAutor + "</td>" +
-                                                        "<td>" + libro.title + "</td>" +
-                                                    "</tr>";
-                        });
-                    } else {
-                        tableHead.innerHTML += "<tr>" +
-                                                    "<th>" +"No." + "</th>" +
-                                                    "<th>" +"Autor." + "</th>" +
-                                                    "<th>" +"Título." + "</th>" +
-                                                    "<th>" +"A&ntildeo." + "</th>" +
-                                                "</tr>";
-                        datosLibros.forEach((libro, i) => {
-                            tableData.innerHTML += "<tr>" +
-                                                        "<th>" + i + "</th>" +
-                                                        "<td>" + datosAutor + "</td>" +
-                                                        "<td>" + libro.title + "</td>" +
-                                                        "<td>" + libro.publish_year[0] + "</td>" +
-                                                    "</tr>";
-                        });
-
-                    }
+                    });
                 }
 
-            })
+            });
     } else if (parametro.value === "titulo"){
-        const titulo = parametroText.value.toString().split().join("_");
+        const titulo = parametroText.value
         fetch(`https://openlibrary.org/search.json?title=${titulo}`)
         .then(res => res.json())
         .then(resJson => {
