@@ -5,6 +5,12 @@ contextBridge.exposeInMainWorld(
     {
         consultarAutor: (args) => ipcRenderer.send('consultarAutor', args),
 
-        recibirDatosBD: (callback) => ipcRenderer.on('recibirDatosBD', callback)
+        consultarTitulo: (args) => ipcRenderer.send('consultarTitulo', args),
+
+        recibirDatosBD: (callback) => ipcRenderer.on('recibirDatosBD', callback),
+
+        guardarDatos: (args) => ipcRenderer.send('guardarDatos', args),
+
+        datosAlmacenados: (callback) => ipcRenderer.on('datosAlmacenados', callback)
     }
 )

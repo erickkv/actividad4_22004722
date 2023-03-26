@@ -35,7 +35,35 @@ ipcMain.on('consultarAutor', function(event, args) {
         ventana.webContents.send('recibirDatosBD', result);
     })
     .catch(err => console.log(err));
-})
+});
+
+ipcMain.on('consultarTitulo', function(event, args) {
+    conexion.promise().execute('SELECT * FROM consultas WHERE titulo = ?', [args[1]])
+    .then(([result, fields]) => {
+        ventana.webContents.send('recibirDatosBD', result);
+    })
+    .catch(err => console.log(err));
+});
+
+ipcMain.on('guardarDatos', function(event, args) {
+    let fecha = new Date().toISOString().slice(0, 10);
+    /* console.log(args[0]);
+    console.log(fecha); */
+    if (!('author_name' in args[0])) {
+        args.forEach(autor => {
+            conexion.promise().execute('INSERT INTO consultas (autor, fecha_ingreso) VALUES (?, ?)',
+            [autor.name, fecha])
+        });
+        ventana.webContents.send('datosAlmacenados', 'Datos almacenados en la base de datos');
+    } else {
+        args.forEach(datosLibro => {
+            conexion.promise().execute('INSERT INTO consultas (autor, titulo, year, fecha_ingreso) VALUES (?, ?, ?, ?)',
+            [datosLibro.author_name[0], datosLibro.title, datosLibro.first_publish_year, fecha])
+        });
+        ventana.webContents.send('datosAlmacenados', 'Datos almacenados en la base de datos');
+    }
+
+});
 
 app.whenReady().then(createWindow)
 
