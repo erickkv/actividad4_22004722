@@ -7,6 +7,9 @@ const parametro = document.getElementById("select-parametro");
 const parametroText = document.getElementById("parametroText");
 const tableHead = document.getElementById("tableHead");
 const tableData = document.getElementById("tableData");
+const consultaBdBtn = document.getElementById("consultabd");
+const guardarBtn = document.getElementById("guardar")
+let fecha;
 
 parametro.addEventListener('click', () => {
     autorCbx.checked = false;
@@ -31,6 +34,7 @@ boton.addEventListener('click', () => {
         adv.innerHTML = "debe seleccionar búsqueda por AUTOR o por TITULO";
         return;
     }
+    fecha = new Date().toISOString().slice(0, 10);
     const autor = parametroText.value
     if (parametro.value === "autor" && !tituloCbx.checked) {
         fetch(`https://openlibrary.org/search/authors.json?q=${autor}`)
@@ -40,11 +44,11 @@ boton.addEventListener('click', () => {
                 tableData.innerHTML = "";
                 const autores = resJson.docs;
                 tableHead.innerHTML += "<tr>" +
-                                            "<th>" +"autor" + "</th>"
+                                            "<th>" +"autor" + "</th>" +
                                         "</tr>";
                 autores.forEach(autor => {
                     tableData.innerHTML += "<tr>" +
-                                            "<td>" + autor.name + "</td>"
+                                            "<td>" + autor.name + "</td>" +
                                         "</tr>";
                 })
 
@@ -156,4 +160,71 @@ boton.addEventListener('click', () => {
             }
         });
     }
+})
+
+consultaBdBtn.addEventListener('click', () => {
+    adv.innerHTML = "";
+    if (parametro.value === "" || parametroText.value === "") {
+        adv.innerHTML = "debe seleccionar búsqueda por AUTOR o por TITULO";
+        return;
+    }
+    const argumento = parametroText.value;
+    const campoSelec =parametro.value;
+    window.comunicacion.consultarAutor([campoSelec, argumento]);
+    window.comunicacion.recibirDatosBD(function(event, result) {
+        tableHead.innerHTML = "";
+        tableData.innerHTML = "";
+        if (result.length > 0) {
+            console.log(result);
+            tableHead.innerHTML += "<tr>" +
+                                        "<th>" +"No." + "</th>" +
+                                        "<th>" +"Autor" + "</th>" +
+                                        "<th>" +"Titulo" + "</th>" +
+                                        "<th>" +"Año" + "</th>" +
+                                        "<th>" +"Fecha consulta" + "</th>" +
+                                    "</tr>";
+            // si esta seleccionado solo autor y NO titulo entonces
+            let index;
+            if (parametro.value === "autor" && !tituloCbx.checked) {
+                index = 1;
+                result.forEach(obj => {
+                    //crear una fila el html y meter id, autor y fecha consulta; aumentar indice
+                    tableData.innerHTML += "<tr>" +
+                                                "<td>" + index + "</td>" +
+                                                "<td>" + obj.autor + "</td>" +
+                                                "<td>" + "</td>" +
+                                                "<td>" + "</td>" +
+                                                "<td>" + obj.fecha_ingreso + "</td>" +
+                                            "</tr>";
+                    index++;
+                })
+            } else if (parametro.value === "autor" && tituloCbx.checked && !yearCbx.checked) {
+                index = 1;
+                result.forEach(obj => {
+                    tableData.innerHTML += "<tr>" +
+                                                "<td>" + index + "</td>" +
+                                                "<td>" + obj.autor + "</td>" +
+                                                "<td>" + obj.titulo + "</td>" +
+                                                "<td>" + "</td>" +
+                                                "<td>" + obj.fecha_ingreso + "</td>" +
+                                            "</tr>";
+                    index++;
+                })
+            } else if (parametro.value === "autor" && tituloCbx.checked && yearCbx.checked) {
+                index = 1;
+                result.forEach(obj => {
+                    tableData.innerHTML += "<tr>" +
+                                                "<td>" + index + "</td>" +
+                                                "<td>" + obj.autor + "</td>" +
+                                                "<td>" + obj.titulo + "</td>" +
+                                                "<td>" + obj.year + "</td>" +
+                                                "<td>" + obj.fecha_ingreso + "</td>" +
+                                            "</tr>";
+                    index++;
+                })
+            }
+        }
+
+
+    })
 })
