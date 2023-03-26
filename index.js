@@ -84,9 +84,12 @@ boton.addEventListener('click', () => {
                                                 "<th>" +"Título." + "</th>" +
                                             "</tr>";
                     datosLibros.forEach((libro, i) => {
+                        let autor;
+                        if(!("author_name" in libro)) {autor = null;}
+                        else {autor = libro.author_name[0];}
                         tableData.innerHTML += "<tr>" +
                                                     "<th>" + (i + 1) + "</th>" +
-                                                    "<td>" + libro.author_name[0] + "</td>" +
+                                                    "<td>" + autor + "</td>" +
                                                     "<td>" + libro.title + "</td>" +
                                                 "</tr>";
                     });
@@ -98,9 +101,12 @@ boton.addEventListener('click', () => {
                                                 "<th>" +"A&ntildeo." + "</th>" +
                                             "</tr>";
                     datosLibros.forEach((libro, i) => {
+                        let autor;
+                        if(!("author_name" in libro)) {autor = null;}
+                        else {autor = libro.author_name[0];}
                         tableData.innerHTML += "<tr>" +
                                                     "<th>" + (i + 1) + "</th>" +
-                                                    "<td>" + libro.author_name[0] + "</td>" +
+                                                    "<td>" + autor+ "</td>" +
                                                     "<td>" + libro.title + "</td>" +
                                                     "<td>" + libro.first_publish_year + "</td>" +
                                                 "</tr>";
@@ -158,9 +164,12 @@ boton.addEventListener('click', () => {
                                                 "<th>" +"Año" + "</th>" +
                                             "</tr>";
                     datosLibros.forEach((libro, i) => {
+                        let autor;
+                        if(!("author_name" in libro)) {autor = null;}
+                        else {autor = libro.author_name[0];}
                         tableData.innerHTML += "<tr>" +
                                                 "<th>" + (i + 1) + "</th>" +
-                                                "<th>" + libro.author_name[0] + "</th>" +
+                                                "<th>" + autor + "</th>" +
                                                 "<td>" + libro.title + "</td>" +
                                                 "<td>" + libro.first_publish_year + "</td>" +
                                             "</tr>";
@@ -172,11 +181,14 @@ boton.addEventListener('click', () => {
                                                 "<th>" +"Titulo" + "</th>" +
                                             "</tr>";
                     datosLibros.forEach((libro, i) => {
-                    tableData.innerHTML += "<tr>" +
-                                                "<th>" + (i + 1) + "</th>" +
-                                                "<th>" + libro.author_name[0] + "</th>" +
-                                                "<td>" + libro.title + "</td>" +
-                                            "</tr>";
+                        let autor;
+                        if(!("author_name" in libro)) {autor = null;}
+                        else {autor = libro.author_name[0];}
+                        tableData.innerHTML += "<tr>" +
+                                                    "<th>" + (i + 1) + "</th>" +
+                                                    "<th>" + autor + "</th>" +
+                                                    "<td>" + libro.title + "</td>" +
+                                                "</tr>";
                             });
                 }
             }
@@ -323,6 +335,6 @@ guardarBtn.addEventListener('click', () => {
     }
     window.comunicacion.guardarDatos(informacionObtenida);
     window.comunicacion.datosAlmacenados(function(event, args) {
-        alert(args);
+        adv.innerHTML = args;
     });
 })

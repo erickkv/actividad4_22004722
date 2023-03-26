@@ -56,9 +56,17 @@ ipcMain.on('guardarDatos', function(event, args) {
         });
         ventana.webContents.send('datosAlmacenados', 'Datos almacenados en la base de datos');
     } else {
+        let autor;
+        let year
         args.forEach(datosLibro => {
+            if(!("author_name" in datosLibro)) {autor = "null";}
+            else if(datosLibro.author_name.length < 1) {autor = "null";}
+            else {autor = datosLibro.author_name[0];}
+            if (!("first_publish_year" in datosLibro)) {year = null;}
+            else if(!datosLibro.first_publish_year) {year = null;}
+            else {year = datosLibro.first_publish_year}
             conexion.promise().execute('INSERT INTO consultas (autor, titulo, year, fecha_ingreso) VALUES (?, ?, ?, ?)',
-            [datosLibro.author_name[0], datosLibro.title, datosLibro.first_publish_year, fecha])
+            [autor, datosLibro.title, year, fecha])
         });
         ventana.webContents.send('datosAlmacenados', 'Datos almacenados en la base de datos');
     }
